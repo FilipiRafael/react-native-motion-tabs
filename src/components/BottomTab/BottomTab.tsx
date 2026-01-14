@@ -12,7 +12,12 @@ import Animated, {
 import { isAndroid } from '../../config/platform';
 import { BottomTabButton } from '../BottomTabButton/BottomTabButton';
 import { stylesheet } from './styles';
-import { defaultTheme, type StyleConfig } from '../../types';
+import {
+  defaultTheme,
+  type StyleConfig,
+  type AnimationConfig,
+  type IconType,
+} from '../../types';
 
 type DimensionsProps = {
   height: number;
@@ -26,7 +31,10 @@ export const BottomTab = ({
   tabsConfig,
   theme,
 }: BottomTabBarProps & { theme?: StyleConfig } & {
-  tabsConfig: Record<string, { icon: string; iconType: string }>;
+  tabsConfig: Record<
+    string,
+    { icon: string; iconType: IconType; animationConfig?: AnimationConfig }
+  >;
 }) => {
   const [dimensions, setDimensions] = useState<DimensionsProps>({
     height: 20,
@@ -90,9 +98,17 @@ export const BottomTab = ({
           const isFocused = state.index === index;
 
           const onPress = () => {
-            tabPositionX.value = withSpring(buttonWidth * index, {
-              duration: 1500,
-            });
+            const config = {
+              stiffness: theme?.animationConfig?.stiffness || 100,
+              overshootClamping:
+                theme?.animationConfig?.overshootClamping || false,
+              restDisplacementThreshold:
+                theme?.animationConfig?.restDisplacementThreshold || 0.001,
+              restSpeedThreshold:
+                theme?.animationConfig?.restSpeedThreshold || 0.001,
+            };
+
+            tabPositionX.value = withSpring(buttonWidth * index, config);
 
             const event = navigation.emit({
               type: 'tabPress',
@@ -124,6 +140,7 @@ export const BottomTab = ({
               }}
               theme={theme || defaultTheme}
               label={label}
+              animationConfig={tabsConfig[route.name]?.animationConfig}
             />
           );
         }

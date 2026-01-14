@@ -12,6 +12,7 @@ Perfect for apps that want to:
 Powered by React Native Reanimated, it provides butter-smooth animations while maintaining 60 FPS. The library seamlessly integrates with React Navigation's ecosystem while adding a layer of motion and interactivity that makes your app feel more dynamic and responsive.
 
 ## 📸 How it looks
+
 https://github.com/user-attachments/assets/3b37176b-0ba3-43f7-b1e0-513fb514e825
 
 ## Features
@@ -21,6 +22,8 @@ https://github.com/user-attachments/assets/3b37176b-0ba3-43f7-b1e0-513fb514e825
 - Built-in icon support
 - TypeScript support
 - Works with React Navigation
+- Advanced animation configurations
+- Custom animation styles per tab
 
 ## Installation
 
@@ -129,12 +132,11 @@ cd ..
 
 ```typescript
 import { View } from 'react-native';
-
 import { createMotionTabs } from 'react-native-motion-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 
 function ExampleScreen() {
-  return <View style={{flex: 1}} />;
+  return <View style={{ flex: 1, backgroundColor: 'white' }} />;
 }
 
 const Tabs = createMotionTabs({
@@ -144,12 +146,33 @@ const Tabs = createMotionTabs({
       component: ExampleScreen,
       icon: 'home',
       iconType: 'Ionicons',
+      animationConfig: {
+        stiffness: 100,
+        overshootClamping: false,
+        restDisplacementThreshold: 0.001,
+        restSpeedThreshold: 0.001,
+      },
+      animationStyle: {
+        scale: 1.2,
+        rotate: 360,
+        opacity: 0.8,
+      },
     },
     {
       name: 'Search',
       component: ExampleScreen,
       icon: 'search',
       iconType: 'Ionicons',
+      animationConfig: {
+        stiffness: 100,
+        overshootClamping: false,
+        restDisplacementThreshold: 0.001,
+        restSpeedThreshold: 0.001,
+      },
+      animationStyle: {
+        scale: 1.1,
+        rotate: 180,
+      },
     },
     {
       name: 'Favorites',
@@ -169,6 +192,12 @@ const Tabs = createMotionTabs({
     activeText: '#FFFFFF',
     inactiveText: '#000000',
     backgroundColor: '#FFFFFF',
+    animationConfig: {
+      stiffness: 100,
+      overshootClamping: false,
+      restDisplacementThreshold: 0.001,
+      restSpeedThreshold: 0.001,
+    },
   },
 });
 
@@ -220,3 +249,36 @@ MIT © [Filipi Rafael](https://github.com/filipirafael)
 ---
 
 Made with ❤️ by [@filipiRafael3](https://x.com/filipiRafael3)
+
+## Animation Configuration
+
+The library uses React Native Reanimated's `withSpring` for animations. Here are the available configuration options:
+
+### Animation Config
+
+- `stiffness`: Controls how "springy" the animation is (default: 100)
+- `overshootClamping`: Prevents the animation from overshooting its target (default: false)
+- `restDisplacementThreshold`: The minimum displacement from the target to consider the animation complete (default: 0.001)
+- `restSpeedThreshold`: The minimum speed to consider the animation complete (default: 0.001)
+
+### Animation Style
+
+- `scale`: Scale factor for the icon when active (default: 1.2)
+- `rotate`: Rotation in degrees for the icon when active (default: 0)
+- `opacity`: Opacity value for the icon when active (default: 1)
+
+Example:
+
+```typescript
+animationConfig: {
+  stiffness: 100,
+  overshootClamping: false,
+  restDisplacementThreshold: 0.001,
+  restSpeedThreshold: 0.001,
+},
+animationStyle: {
+  scale: 1.2,
+  rotate: 360,
+  opacity: 0.8,
+}
+```

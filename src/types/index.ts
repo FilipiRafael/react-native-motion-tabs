@@ -1,12 +1,42 @@
-import type { ComponentType } from 'react';
+import type { ComponentType, ReactNode } from 'react';
 
 import type { BottomTabNavigationOptions } from '@react-navigation/bottom-tabs';
 
+export type IconType =
+  | 'Ionicons'
+  | 'MaterialIcons'
+  | 'MaterialCommunityIcons'
+  | 'Entypo'
+  | 'FontAwesome'
+  | 'AntDesign'
+  | 'Feather'
+  | 'SimpleLineIcons'
+  | 'Octicons'
+  | 'Zocial';
+
+export type AnimationConfig = {
+  duration?: number;
+  damping?: number;
+  stiffness?: number;
+  mass?: number;
+  overshootClamping?: boolean;
+  restDisplacementThreshold?: number;
+  restSpeedThreshold?: number;
+};
+
+export type AnimationStyleConfig = {
+  scale?: number;
+  rotate?: number;
+  opacity?: number;
+};
+
 export type TabConfig = {
   name: string;
-  component: ComponentType<any>;
+  component: ComponentType<{ children?: ReactNode }>;
   icon: string;
-  iconType: string;
+  iconType: IconType;
+  animationConfig?: AnimationConfig;
+  animationStyle?: AnimationStyleConfig;
 };
 
 export type StyleConfig = {
@@ -17,6 +47,7 @@ export type StyleConfig = {
   shadowColor?: string;
   tabBarHeight?: number;
   marginHorizontal?: number;
+  animationConfig?: AnimationConfig;
 };
 
 export const defaultTheme: StyleConfig = {
@@ -27,6 +58,12 @@ export const defaultTheme: StyleConfig = {
   shadowColor: '#000000',
   tabBarHeight: 60,
   marginHorizontal: 40,
+  animationConfig: {
+    stiffness: 100,
+    overshootClamping: false,
+    restDisplacementThreshold: 0.001,
+    restSpeedThreshold: 0.001,
+  },
 };
 
 export type MotionTabsConfig = {
@@ -38,7 +75,9 @@ export type MotionTabsConfig = {
 export type TabRoute = {
   name: string;
   icon?: string;
-  iconType?: string;
+  iconType?: IconType;
+  animationConfig?: AnimationConfig;
+  animationStyle?: AnimationStyleConfig;
 };
 
 export type BottomTabButtonProps = {
@@ -48,4 +87,6 @@ export type BottomTabButtonProps = {
   route: TabRoute;
   theme: StyleConfig;
   label: string;
+  animationConfig?: AnimationConfig;
+  animationStyle?: AnimationStyleConfig;
 };

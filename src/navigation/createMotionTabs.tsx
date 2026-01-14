@@ -1,39 +1,57 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 
 import { BottomTab } from '../components/BottomTab/BottomTab';
-import type { MotionTabsConfig, TabRoute } from '../types';
+import type {
+  MotionTabsConfig,
+  IconType,
+  AnimationConfig,
+  AnimationStyleConfig,
+} from '../types';
 
 const Tab = createBottomTabNavigator();
 
-export function createMotionTabs({ tabs, style, options }: MotionTabsConfig) {
-  return function MotionTabs() {
-    const tabsConfig = tabs.reduce(
-      (acc, tab) => {
-        acc[tab.name] = {
-          name: tab.name,
-          icon: tab.icon || 'circle',
-          iconType: tab.iconType || 'Ionicons',
-        };
-        return acc;
-      },
-      {} as Record<string, TabRoute>
-    );
+export function MotionTabs({ tabs, style, options }: MotionTabsConfig) {
+  const tabsConfig = tabs.reduce(
+    (acc, tab) => {
+      acc[tab.name] = {
+        icon: tab.icon || 'home',
+        iconType: tab.iconType || 'Ionicons',
+        animationConfig: tab.animationConfig,
+        animationStyle: tab.animationStyle,
+      };
+      return acc;
+    },
+    {} as Record<
+      string,
+      {
+        icon: string;
+        iconType: IconType;
+        animationConfig?: AnimationConfig;
+        animationStyle?: AnimationStyleConfig;
+      }
+    >
+  );
 
-    return (
-      <Tab.Navigator
-        screenOptions={{
-          headerShown: false,
-          ...options,
-        }}
-        // eslint-disable-next-line react/no-unstable-nested-components
-        tabBar={(props: any) => (
-          <BottomTab {...props} theme={style} tabsConfig={tabsConfig} />
-        )}
-      >
-        {tabs.map(({ name, component }) => (
-          <Tab.Screen key={name} name={name} component={component} />
-        ))}
-      </Tab.Navigator>
-    );
-  };
+  const renderTabBar = (props: BottomTabBarProps) => (
+    <BottomTab {...props} theme={style} tabsConfig={tabsConfig} />
+  );
+
+  return (
+    <Tab.Navigator
+      screenOptions={{
+        headerShown: false,
+        ...options,
+      }}
+      tabBar={renderTabBar}
+    >
+      {tabs.map(({ name, component }) => (
+        <Tab.Screen key={name} name={name} component={component} />
+      ))}
+    </Tab.Navigator>
+  );
+}
+
+export function createMotionTabs(config: MotionTabsConfig) {
+  return () => <MotionTabs {...config} />;
 }

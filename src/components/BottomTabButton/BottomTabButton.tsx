@@ -12,7 +12,12 @@ import Animated, {
   interpolate,
 } from 'react-native-reanimated';
 
-import type { TabRoute, StyleConfig } from '../../types';
+import type {
+  TabRoute,
+  StyleConfig,
+  AnimationConfig,
+  AnimationStyleConfig,
+} from '../../types';
 import { stylesheet } from './styles';
 
 type Props = {
@@ -22,6 +27,8 @@ type Props = {
   route: TabRoute;
   theme: StyleConfig;
   label: string;
+  animationConfig?: AnimationConfig;
+  animationStyle?: AnimationStyleConfig;
 };
 
 export const BottomTabButton = ({
@@ -31,6 +38,8 @@ export const BottomTabButton = ({
   route,
   theme,
   label,
+  animationConfig,
+  animationStyle,
 }: Props) => {
   const scale = useSharedValue(0);
 
@@ -69,20 +78,38 @@ export const BottomTabButton = ({
   });
 
   const animatedIconStyle = useAnimatedStyle(() => {
-    const scaleValue = interpolate(scale.value, [0, 1], [1, 1.2]);
+    const scaleValue = interpolate(
+      scale.value,
+      [0, 1],
+      [1, animationStyle?.scale || 1.2]
+    );
     const top = interpolate(scale.value, [0, 1], [0, 9]);
+    const rotate = interpolate(
+      scale.value,
+      [0, 1],
+      [0, animationStyle?.rotate || 0]
+    );
     return {
-      transform: [{ scale: scaleValue }],
+      transform: [{ scale: scaleValue }, { rotate: `${rotate}deg` }],
       top,
+      opacity: animationStyle?.opacity || 1,
     };
   });
 
   useEffect(() => {
+    const config = {
+      stiffness: animationConfig?.stiffness || 100,
+      overshootClamping: animationConfig?.overshootClamping || false,
+      restDisplacementThreshold:
+        animationConfig?.restDisplacementThreshold || 0.001,
+      restSpeedThreshold: animationConfig?.restSpeedThreshold || 0.001,
+    };
+
     scale.value = withSpring(
       typeof isFocused === 'boolean' ? (isFocused ? 1 : 0) : isFocused,
-      { duration: 350 }
+      config
     );
-  }, [scale, isFocused]);
+  }, [scale, isFocused, animationConfig]);
 
   const buttonStyle = StyleSheet.flatten([stylesheet.button]);
 
