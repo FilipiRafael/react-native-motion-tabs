@@ -15,7 +15,7 @@ Powered by React Native Reanimated, it provides butter-smooth animations while m
 
 https://github.com/user-attachments/assets/3b37176b-0ba3-43f7-b1e0-513fb514e825
 
-## Features
+## ✨ Features
 
 - Pre-configured smooth animations
 - Customizable styles and colors
@@ -25,7 +25,7 @@ https://github.com/user-attachments/assets/3b37176b-0ba3-43f7-b1e0-513fb514e825
 - Advanced animation configurations
 - Custom animation styles per tab
 
-## Installation
+## 📦 Installation
 
 ### 1. Install the library and its dependencies
 
@@ -128,7 +128,18 @@ pod install
 cd ..
 ```
 
-## Usage
+---
+
+## 📱 Platform Support
+
+| Platform | Old Arch | Fabric |
+|----------|----------|--------|
+| iOS      | ✅        | ✅      |
+| Android  | ✅        | ✅      |
+
+---
+
+## 🎛 Usage
 
 ```typescript
 import { View } from 'react-native';
@@ -229,11 +240,11 @@ We support a wide variety of icon libraries:
 
 To see MotionTabs in action, check out [Meowtive](https://github.com/meowtive/meowtive)!
 
-## Contributing
+## 💪 Contributing
 
 See our [Contributing Guide](CONTRIBUTING.md)
 
-## Support
+## 🎗️ Support
 
 If this library helped you, consider:
 
@@ -242,7 +253,7 @@ If this library helped you, consider:
 - 🐛 Report issues
 - 🤝 Submit PRs
 
-## License
+## 📘 License
 
 MIT © [Filipi Rafael](https://github.com/filipirafael)
 
@@ -250,7 +261,7 @@ MIT © [Filipi Rafael](https://github.com/filipirafael)
 
 Made with ❤️ by [@filipiRafael3](https://x.com/filipiRafael3)
 
-## Animation Configuration
+## 🦄 Animation Configuration
 
 The library uses React Native Reanimated's `withSpring` for animations. Here are the available configuration options:
 
